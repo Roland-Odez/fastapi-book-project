@@ -1,0 +1,25 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to AWS EC2
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.AWS_HOST }}
+        username: ubuntu
+        key: ${{ secrets.AWS_PRIVATE_KEY }}
+        script: |
+          cd /home/ubuntu/fastapi-book-project
+          git pull origin main
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+          sudo systemctl restart fastapi
+          sudo systemctl restart nginx
