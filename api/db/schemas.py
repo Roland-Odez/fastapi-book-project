@@ -14,7 +14,6 @@ class Genre(str, Enum):
     ROMANCE = "Romance"
     THRILLER = "Thriller"
 
-
 class Book(BaseModel):
     """Book schema
 
